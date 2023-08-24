@@ -61,6 +61,23 @@ public:
 //Paddle class
 class Paddle
 {
+
+protected:
+
+    void LimitMovement()
+    {
+
+        if (y <= 0)
+        {
+            y = 0;
+        }
+
+        if (y + height >= GetScreenHeight())
+        {
+            y = GetScreenHeight() - height;
+        }
+    }
+
 public:
 
     float x, y;
@@ -84,20 +101,33 @@ public:
             y += speed;
         }
 
-        if (y <= 0)
+        LimitMovement();
+    }
+};
+
+class Player2 : public Paddle
+{
+public:
+
+    void Update()
+    {
+        if (IsKeyDown(KEY_UP))
         {
-            y = 0;
+            y -= speed;
         }
 
-        if (y + height >= GetScreenHeight())
+        if (IsKeyDown(KEY_DOWN))
         {
-            y = GetScreenHeight() - height;
+            y += speed;
         }
+
+        LimitMovement();
     }
 };
 
 Ball ball;
 Paddle player1;
+Player2 player2;
 
 int main(int argc, char* argv[])
 {
@@ -109,6 +139,7 @@ int main(int argc, char* argv[])
 
     SetTargetFPS(60);
 
+    //Initialize
     ball.radius = 20;
     ball.x = screenWidth / 2;
     ball.y = screenHeight / 2;
@@ -117,9 +148,15 @@ int main(int argc, char* argv[])
 
     player1.width = 25;
     player1.height = 100;
-    player1.x = (screenWidth - player1.width) - 10;
+    player1.x = 10;
     player1.y = (screenHeight / 2) - (player1.height / 2);
     player1.speed = 6;
+
+    player2.width = 25;
+    player2.height = 100;
+    player2.x = (screenWidth - player2.width) - 10;
+    player2.y = (screenHeight / 2) - (player2.height / 2);
+    player2.speed = 6;
 
     while (!WindowShouldClose())   
     {
@@ -129,12 +166,14 @@ int main(int argc, char* argv[])
         //Update
         ball.Update();
         player1.Update();
+        player2.Update();
 
         //Draw
         ClearBackground(BLACK);
 
         ball.Draw();
         player1.Draw();
+        player2.Draw();
 
         EndDrawing();
 
