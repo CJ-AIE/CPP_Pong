@@ -27,6 +27,8 @@
 
 using namespace std;
 
+int player1_score = 0;
+int player2_score = 0;
 
 //Ball class
 class Ball
@@ -51,10 +53,28 @@ public:
             speedY *= -1;
         }
 
-        if (x + radius >= GetScreenWidth() || x - radius <= 0)
+        if (x + radius >= GetScreenWidth())
         {
-            speedX *= -1;
+            player2_score++;
+            ResetBall();
         }
+            
+        if (x - radius <= 0)
+        {
+            player1_score++;
+            ResetBall();
+        }
+    }
+
+    void ResetBall()
+    {
+        x = GetScreenWidth() / 2;
+        y = GetScreenHeight() / 2;
+
+        int speedChoices[2] = { -1, 1 };
+
+        speedX *= speedChoices[GetRandomValue(0, 1)];
+        speedY *= speedChoices[GetRandomValue(0, 1)];
     }
 };
 
@@ -185,6 +205,8 @@ int main(int argc, char* argv[])
         ball.Draw();
         player1.Draw();
         player2.Draw();
+        DrawText(TextFormat("%i", player2_score), (screenWidth / 4) - 20, 20, 80, WHITE);
+        DrawText(TextFormat("%i", player1_score), 3 * (screenWidth / 4) - 20, 20, 80, WHITE);
 
         EndDrawing();
 
