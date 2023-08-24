@@ -43,6 +43,16 @@ public:
     {
         x += speedX;
         y += speedY;
+
+        if (y + radius >= GetScreenHeight() || y - radius <= 0)
+        {
+            speedY *= -1;
+        }
+
+        if (x + radius >= GetScreenWidth() || x - radius <= 0)
+        {
+            speedX *= -1;
+        }
     }
 };
 
