@@ -29,8 +29,8 @@ int main(int argc, char* argv[])
 {
     // Initialization
     //--------------------------------------------------------------------------------------
-    int screenWidth = 800;
-    int screenHeight = 450;
+    int screenWidth = 1000;
+    int screenHeight = 600;
 
     InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
 
@@ -49,9 +49,11 @@ int main(int argc, char* argv[])
         //----------------------------------------------------------------------------------
         BeginDrawing();
 
-        ClearBackground(RAYWHITE);
+        ClearBackground(BLACK);
 
-        DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
+        DrawCircle(screenWidth / 2, screenHeight / 2, 20, RED);
+        DrawRectangle(10, (screenHeight / 2) - 60, 25, 100, BLUE);
+        DrawRectangle(screenWidth - 35, (screenHeight / 2) - 60, 25, 100, BLUE);
 
         EndDrawing();
         //----------------------------------------------------------------------------------
