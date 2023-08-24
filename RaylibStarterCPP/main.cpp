@@ -25,44 +25,68 @@
 #define RAYGUI_SUPPORT_ICONS
 #include "raygui.h"
 
+using namespace std;
+
+class Ball
+{
+public:
+    float x, y;
+    int speedX, speedY;
+    int radius;
+
+    void Draw()
+    {
+        DrawCircle(x, y, radius, RED);
+    }
+
+    void Update()
+    {
+        x += speedX;
+        y += speedY;
+    }
+};
+
+
+Ball ball;
+
 int main(int argc, char* argv[])
 {
-    // Initialization
-    //--------------------------------------------------------------------------------------
+
     int screenWidth = 1000;
     int screenHeight = 600;
 
     InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
 
     SetTargetFPS(60);
-    //--------------------------------------------------------------------------------------
 
-    // Main game loop
-    while (!WindowShouldClose())    // Detect window close button or ESC key
+    ball.radius = 20;
+    ball.x = screenWidth / 2;
+    ball.y = screenHeight / 2;
+    ball.speedX = 7;
+    ball.speedY = 7;
+
+    while (!WindowShouldClose())   
     {
-        // Update
-        //----------------------------------------------------------------------------------
-        // TODO: Update your variables here
-        //----------------------------------------------------------------------------------
 
-        // Draw
-        //----------------------------------------------------------------------------------
         BeginDrawing();
 
+        //Update
+        ball.Update();
+
+        //Draw
         ClearBackground(BLACK);
 
-        DrawCircle(screenWidth / 2, screenHeight / 2, 20, RED);
+        ball.Draw();
         DrawRectangle(10, (screenHeight / 2) - 60, 25, 100, BLUE);
         DrawRectangle(screenWidth - 35, (screenHeight / 2) - 60, 25, 100, BLUE);
 
         EndDrawing();
-        //----------------------------------------------------------------------------------
+
     }
 
-    // De-Initialization
-    //--------------------------------------------------------------------------------------   
-    CloseWindow();        // Close window and OpenGL context
-    //--------------------------------------------------------------------------------------
+
+    CloseWindow();
+
 
     return 0;
 }
