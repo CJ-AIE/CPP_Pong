@@ -27,6 +27,8 @@
 
 using namespace std;
 
+
+//Ball class
 class Ball
 {
 public:
@@ -56,8 +58,46 @@ public:
     }
 };
 
+//Paddle class
+class Paddle
+{
+public:
+
+    float x, y;
+    float width, height;
+    int speed;
+
+    void Draw()
+    {
+        DrawRectangle(x, y, width, height, BLUE);
+    }
+
+    void Update()
+    {
+        if (IsKeyDown(KEY_W))
+        {
+            y -= speed;
+        }
+
+        if (IsKeyDown(KEY_S))
+        {
+            y += speed;
+        }
+
+        if (y <= 0)
+        {
+            y = 0;
+        }
+
+        if (y + height >= GetScreenHeight())
+        {
+            y = GetScreenHeight() - height;
+        }
+    }
+};
 
 Ball ball;
+Paddle player1;
 
 int main(int argc, char* argv[])
 {
@@ -75,6 +115,12 @@ int main(int argc, char* argv[])
     ball.speedX = 7;
     ball.speedY = 7;
 
+    player1.width = 25;
+    player1.height = 100;
+    player1.x = (screenWidth - player1.width) - 10;
+    player1.y = (screenHeight / 2) - (player1.height / 2);
+    player1.speed = 6;
+
     while (!WindowShouldClose())   
     {
 
@@ -82,13 +128,13 @@ int main(int argc, char* argv[])
 
         //Update
         ball.Update();
+        player1.Update();
 
         //Draw
         ClearBackground(BLACK);
 
         ball.Draw();
-        DrawRectangle(10, (screenHeight / 2) - 60, 25, 100, BLUE);
-        DrawRectangle(screenWidth - 35, (screenHeight / 2) - 60, 25, 100, BLUE);
+        player1.Draw();
 
         EndDrawing();
 
