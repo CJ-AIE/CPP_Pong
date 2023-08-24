@@ -168,6 +168,17 @@ int main(int argc, char* argv[])
         player1.Update();
         player2.Update();
 
+        //Check collision
+        if (CheckCollisionCircleRec(Vector2{ ball.x, ball.y }, ball.radius, Rectangle{ player1.x, player1.y, player1.width, player1.height }))
+        {
+            ball.speedX *= -1;
+        }
+
+        if (CheckCollisionCircleRec(Vector2{ ball.x, ball.y }, ball.radius, Rectangle{ player2.x, player2.y, player2.width, player2.height }))
+        {
+            ball.speedX *= -1;
+        }
+
         //Draw
         ClearBackground(BLACK);
 
