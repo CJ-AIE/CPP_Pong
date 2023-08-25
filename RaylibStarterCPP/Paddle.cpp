@@ -22,10 +22,6 @@ void Paddle::Draw()
     DrawRectangle(x, y, width, height, BLUE);
 }
 
-void Paddle::Update()
-{
-}
-
 void Paddle::LimitMovement()
 {
     if (y <= 0)

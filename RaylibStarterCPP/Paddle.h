@@ -18,5 +18,5 @@ public:
 
 	void Draw();
 
-	virtual void Update();
+	virtual void Update() = 0;
 };
