@@ -71,12 +71,27 @@ int main(int argc, char* argv[])
             ball->speedX *= -1;
         }
 
+        //Check score
+        if (ball->x + ball->radius >= GetScreenWidth())
+        {
+            player2_score++;
+            ball->ResetBall();
+        }
+
+        if (ball->x - ball->radius <= 0)
+        {
+            player1_score++;
+            ball->ResetBall();
+        }
+
         //Draw
         ClearBackground(BLACK);
 
         ball->Draw();
         player1->Draw();
         player2->Draw();
+
+        //Display Score
         DrawText(TextFormat("%i", player2_score), (screenWidth / 4) - 20, 20, 80, WHITE);
         DrawText(TextFormat("%i", player1_score), 3 * (screenWidth / 4) - 20, 20, 80, WHITE);
 

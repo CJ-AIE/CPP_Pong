@@ -30,18 +30,6 @@ void Ball::Update()
     {
         speedY *= -1;
     }
-
-    if (x + radius >= GetScreenWidth())
-    {
-        //player2_score++;
-        ResetBall();
-    }
-
-    if (x - radius <= 0)
-    {
-        //player1_score++;
-        ResetBall();
-    }
 }
 
 void Ball::ResetBall()
