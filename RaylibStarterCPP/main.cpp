@@ -20,63 +20,18 @@
 ********************************************************************************************/
 
 #include "raylib.h"
-
 #define RAYGUI_IMPLEMENTATION
 #define RAYGUI_SUPPORT_ICONS
 #include "raygui.h"
+
+#include "Ball.h"
 
 using namespace std;
 
 int player1_score = 0;
 int player2_score = 0;
 
-//Ball class
-class Ball
-{
-public:
-    float x, y;
-    int speedX, speedY;
-    int radius;
 
-    void Draw()
-    {
-        DrawCircle(x, y, radius, RED);
-    }
-
-    void Update()
-    {
-        x += speedX;
-        y += speedY;
-
-        if (y + radius >= GetScreenHeight() || y - radius <= 0)
-        {
-            speedY *= -1;
-        }
-
-        if (x + radius >= GetScreenWidth())
-        {
-            player2_score++;
-            ResetBall();
-        }
-            
-        if (x - radius <= 0)
-        {
-            player1_score++;
-            ResetBall();
-        }
-    }
-
-    void ResetBall()
-    {
-        x = GetScreenWidth() / 2;
-        y = GetScreenHeight() / 2;
-
-        int speedChoices[2] = { -1, 1 };
-
-        speedX *= speedChoices[GetRandomValue(0, 1)];
-        speedY *= speedChoices[GetRandomValue(0, 1)];
-    }
-};
 
 //Paddle class
 class Paddle
@@ -145,7 +100,6 @@ public:
     }
 };
 
-Ball ball;
 Paddle player1;
 Player2 player2;
 
@@ -159,12 +113,9 @@ int main(int argc, char* argv[])
 
     SetTargetFPS(60);
 
+    Ball* ball = new Ball();
+
     //Initialize
-    ball.radius = 20;
-    ball.x = screenWidth / 2;
-    ball.y = screenHeight / 2;
-    ball.speedX = 7;
-    ball.speedY = 7;
 
     player1.width = 25;
     player1.height = 100;
@@ -184,25 +135,25 @@ int main(int argc, char* argv[])
         BeginDrawing();
 
         //Update
-        ball.Update();
+        ball->Update();
         player1.Update();
         player2.Update();
 
         //Check collision
-        if (CheckCollisionCircleRec(Vector2{ ball.x, ball.y }, ball.radius, Rectangle{ player1.x, player1.y, player1.width, player1.height }))
+        if (CheckCollisionCircleRec(Vector2{ ball->x, ball->y }, ball->radius, Rectangle{ player1.x, player1.y, player1.width, player1.height }))
         {
-            ball.speedX *= -1;
+            ball->speedX *= -1;
         }
 
-        if (CheckCollisionCircleRec(Vector2{ ball.x, ball.y }, ball.radius, Rectangle{ player2.x, player2.y, player2.width, player2.height }))
+        if (CheckCollisionCircleRec(Vector2{ ball->x, ball->y }, ball->radius, Rectangle{ player2.x, player2.y, player2.width, player2.height }))
         {
-            ball.speedX *= -1;
+            ball->speedX *= -1;
         }
 
         //Draw
         ClearBackground(BLACK);
 
-        ball.Draw();
+        ball->Draw();
         player1.Draw();
         player2.Draw();
         DrawText(TextFormat("%i", player2_score), (screenWidth / 4) - 20, 20, 80, WHITE);
